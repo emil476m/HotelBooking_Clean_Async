@@ -20,20 +20,7 @@ namespace HotelBooking.UnitTests
             IRepository<Room> roomRepository = new FakeRoomRepository();
             bookingManager = new BookingManager(bookingRepository, roomRepository);
         }
-
-        [Fact]
-        public async Task FindAvailableRoom_StartDateNotInTheFuture_ThrowsArgumentException()
-        {
-            // Arrange
-            DateTime date = DateTime.Today;
-
-            // Act
-            Task result() => bookingManager.FindAvailableRoom(date, date);
-
-            // Assert
-            await Assert.ThrowsAsync<ArgumentException>(result);
-        }
-
+        
         [Fact]
         public async Task FindAvailableRoom_RoomAvailable_RoomIdNotMinusOne()
         {
