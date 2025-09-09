@@ -60,6 +60,16 @@ public class BookingManagerTestFindAvailableRoom
 
     }
 
+    public static IEnumerable<object[]> GetUnrealisticDates()
+    {
+        yield return new object[] { DateTime.Today.AddDays(32), DateTime.Today.AddDays(21)  };
+        yield return new object[] { DateTime.Today.AddDays(8), DateTime.Today.AddDays(2)  };
+        yield return new object[] { DateTime.Today.AddDays(68), DateTime.Today.AddDays(52)  };
+        yield return new object[] { DateTime.Today.AddDays(70), DateTime.Today.AddDays(69)  };
+        yield return new object[] { DateTime.Today.AddDays(336), DateTime.Today.AddDays(228)  };
+        yield return new object[] { DateTime.Today.AddDays(332), DateTime.Today.AddDays(310)  };
+    }
+
     [Theory]
     [MemberData(nameof(GetPreDates))] //Arange
     public async Task FindAvailableRoom_StartDateNotInTheFuture_ThrowsArgumentException(DateTime date)
@@ -91,6 +101,17 @@ public class BookingManagerTestFindAvailableRoom
         
         Assert.Equal(-1, result); //Assert result is equal to minus one for no availebel rooms
 
+    }
+    
+    [Theory]
+    [MemberData(nameof(GetUnrealisticDates))]
+    public async Task FindAvailebelRoms_StartDateHigherThanEndDate_ArgumentException(DateTime startDate, DateTime endDate)
+    {
+        // Act
+        Task result() => bookingManager.FindAvailableRoom(startDate, endDate);
+
+        // Assert
+        await Assert.ThrowsAsync<ArgumentException>(result);
     }
 
 }
