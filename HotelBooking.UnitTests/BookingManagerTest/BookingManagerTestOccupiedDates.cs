@@ -65,7 +65,7 @@ public class BookingManagerTestOccupiedDates
     }
     
     [Fact]
-    public async void TestOccupiedDates_StartAndEndDateSame()
+    public async void TestOccupiedDates_StartAndEndDateSame_OneDayReturned()
     {
         //Arrange
 
@@ -85,7 +85,28 @@ public class BookingManagerTestOccupiedDates
     }
     
     [Fact]
-    public async void TestOccupiedDates_NoOccupiedDates()
+    public async void TestOccupiedDates_InsideAndOutsideOccupiedDateRanged_ExpectedOnlyTwoDaysReturned()
+    {
+        //Arrange
+
+        List<DateTime> fullyOccupiedDates = new List<DateTime>()
+        {
+            DateTime.Today.AddDays(19),
+            DateTime.Today.AddDays(20)
+        };
+
+        DateTime start = DateTime.Today.AddDays(19);
+        DateTime end = DateTime.Today.AddDays(30);
+        
+        //Act
+        List<DateTime> result = await bookingManager.GetFullyOccupiedDates(start, end);
+        
+        //Assert
+        Assert.Equal(fullyOccupiedDates, result);
+    }
+    
+    [Fact]
+    public async void TestOccupiedDates_NoOccupiedDates_EmptyList()
     {
         //Arrange
 
