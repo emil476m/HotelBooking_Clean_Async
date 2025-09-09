@@ -63,4 +63,41 @@ public class BookingManagerTestOccupiedDates
         //Assert
         await Assert.ThrowsAsync<ArgumentException>(result);
     }
+    
+    [Fact]
+    public async void TestOccupiedDates_StartAndEndDateSame()
+    {
+        //Arrange
+
+        List<DateTime> fullyOccupiedDates = new List<DateTime>()
+        {
+            DateTime.Today.AddDays(10)
+        };
+
+        DateTime start = DateTime.Today.AddDays(10);
+        DateTime end = DateTime.Today.AddDays(10);
+        
+        //Act
+        List<DateTime> result = await bookingManager.GetFullyOccupiedDates(start, end);
+        
+        //Assert
+        Assert.Equal(fullyOccupiedDates, result);
+    }
+    
+    [Fact]
+    public async void TestOccupiedDates_NoOccupiedDates()
+    {
+        //Arrange
+
+        List<DateTime> fullyOccupiedDates = new List<DateTime>();
+
+        DateTime start = DateTime.Today.AddDays(21);
+        DateTime end = DateTime.Today.AddDays(30);
+        
+        //Act
+        List<DateTime> result = await bookingManager.GetFullyOccupiedDates(start, end);
+        
+        //Assert
+        Assert.Equal(fullyOccupiedDates, result);
+    }
 }
