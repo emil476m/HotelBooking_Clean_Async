@@ -10,12 +10,10 @@ namespace HotelBooking.UnitTests.BookingManagerTest;
 
 public class BookingManagerTestFindAvailableRoom
 {
-    private readonly ITestOutputHelper testOutputHelper;
     private IBookingManager bookingManager;
     private IRepository<Booking> bookingRepository;
 
-    public BookingManagerTestFindAvailableRoom(ITestOutputHelper testOutputHelper){
-        this.testOutputHelper = testOutputHelper;
+    public BookingManagerTestFindAvailableRoom(){
         DateTime start = DateTime.Today.AddDays(10);
         DateTime end = DateTime.Today.AddDays(20);
         bookingRepository = new FakeBookingRepository(start, end);
