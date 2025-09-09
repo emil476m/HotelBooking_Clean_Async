@@ -49,4 +49,18 @@ public class BookingManagerTestOccupiedDates
         //Assert
         Assert.Equal(fullyOccupiedDates, result);
     }
+
+    [Fact]
+    public async void TestOccupiedDates_StartDateHigherThanEndDate_GetArgumentException()
+    {
+        //Arrange
+        DateTime start = DateTime.Today.AddDays(30);
+        DateTime end = DateTime.Today.AddDays(10);
+        
+        //Act
+        Task result() => bookingManager.GetFullyOccupiedDates(start, end);
+        
+        //Assert
+        await Assert.ThrowsAsync<ArgumentException>(result);
+    }
 }
