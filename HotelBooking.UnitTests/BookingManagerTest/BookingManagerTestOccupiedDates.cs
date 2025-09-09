@@ -34,7 +34,7 @@ public class BookingManagerTestOccupiedDates
     }
 
     [Fact]
-    public async void TestOccupiedDates_GetAllOccupiedDates()
+    public async void TestOccupiedDates_GetAllOccupiedDatesInGivenDateInterval_ExspectedResult()
     {
         //Arrange
         
