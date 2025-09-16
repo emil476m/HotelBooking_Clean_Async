@@ -10,6 +10,7 @@ namespace HotelBooking.UnitTests.BookingManagerTest;
 public class BookingManagerTestFindAvailableRoom
 {
     private IBookingManager bookingManager;
+    private readonly int noRoomsReturned = -1;
 
     public BookingManagerTestFindAvailableRoom()
     {
@@ -90,7 +91,7 @@ public class BookingManagerTestFindAvailableRoom
     }
 
     [Theory]
-    [MemberData(nameof(GetPreDates))] //Arange
+    [MemberData(nameof(GetPreDates))]
     public async Task FindAvailableRoom_StartDateNotInTheFuture_ThrowsArgumentException(DateTime date)
     {
         // Act
@@ -108,23 +109,25 @@ public class BookingManagerTestFindAvailableRoom
         int result = await bookingManager.FindAvailableRoom(startDate, endDate);
 
         // Assert
-        Assert.NotEqual(-1, result);
+        Assert.NotEqual(noRoomsReturned, result);
         Assert.IsType<int>(result);
     }
 
     [Theory]
     [MemberData(nameof(GetReservedDates))]
-    public async Task FindAvailebelRoms_FutureDateReserved_NoRoomsAvailable_MinusOne(DateTime startDate,
+    public async Task FindAvailableRooms_FutureDateReserved_NoRoomsAvailable_MinusOne(DateTime startDate,
         DateTime endDate)
     {
+        //Act
         int result = await bookingManager.FindAvailableRoom(startDate, endDate);
 
-        Assert.Equal(-1, result); //Assert result is equal to minus one for no availebel rooms
+        //Assert
+        Assert.Equal(noRoomsReturned, result);
     }
 
     [Theory]
     [MemberData(nameof(GetUnrealisticDates))]
-    public async Task FindAvailebelRoms_StartDateHigherThanEndDate_ArgumentException(DateTime startDate,
+    public async Task FindAvailableRooms_StartDateHigherThanEndDate_ArgumentException(DateTime startDate,
         DateTime endDate)
     {
         // Act
