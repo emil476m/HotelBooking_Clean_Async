@@ -2,37 +2,57 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HotelBooking.Core;
-using HotelBooking.UnitTests.Fakes;
+using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace HotelBooking.UnitTests.BookingManagerTest;
 
 public class BookingManagerTestFindAvailableRoom
 {
     private IBookingManager bookingManager;
-    private IRepository<Booking> bookingRepository;
-
     public BookingManagerTestFindAvailableRoom(){
         DateTime start = DateTime.Today.AddDays(10);
         DateTime end = DateTime.Today.AddDays(20);
-        bookingRepository = new FakeBookingRepository(start, end);
-        IRepository<Room> roomRepository = new FakeRoomRepository();
-        bookingManager = new BookingManager(bookingRepository, roomRepository);
+        Mock<IRepository<Booking>> bookingRepository = new Mock<IRepository<Booking>>();
+        Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
+        
+        var bookings = new[] // Mocks booking repository
+        {
+            new Booking
+            {
+                Id = 1, StartDate = start, EndDate = end, IsActive = true,
+                CustomerId = 1, RoomId = 1
+            },
+            new Booking
+            {
+                Id = 2, StartDate = start, EndDate = end, IsActive = true,
+                CustomerId = 2, RoomId = 2
+            },
+        };
+        bookingRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(bookings);
+        
+        var rooms = new[] //mock data for Rooms repository
+        {
+            new Room { Id = 1, Description = "A"},
+            new Room { Id = 2, Description = "B"}
+        };
+        roomRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(rooms);
+        
+        bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);
     }
     
     public static IEnumerable<object[]> GetPreDates() 
     {
         yield return new object[] { null };
         yield return new object[] { DateTime.Today };
-        yield return new object[] { new DateTime(2025,1,1) };
-        yield return new object[] { new DateTime(2025,4,8) };
-        yield return new object[] { new DateTime(2025,4,2) };
-        yield return new object[] { new DateTime(2025,6,5) };
-        yield return new object[] { new DateTime(2005,5,5) };
-        yield return new object[] { new DateTime(2001,1,1) };
-        yield return new object[] { new DateTime(1999,12,31) };
-        yield return new object[] { new DateTime(1986,8,28) };
+        yield return new object[] { DateTime.Today.AddDays(-100) };   
+        yield return new object[] { DateTime.Today.AddDays(-50) };    
+        yield return new object[] { DateTime.Today.AddDays(-56) };    
+        yield return new object[] { DateTime.Today.AddDays(-20) };    
+        yield return new object[] { DateTime.Today.AddDays(-7400) };  
+        yield return new object[] { DateTime.Today.AddDays(-9000) };  
+        yield return new object[] { DateTime.Today.AddDays(-9300) };  
+        yield return new object[] { DateTime.Today.AddDays(-14200) }; 
     }
     
     public static IEnumerable<object[]> GetFutureDates() 
