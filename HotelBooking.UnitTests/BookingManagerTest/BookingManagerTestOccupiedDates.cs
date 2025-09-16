@@ -11,26 +11,41 @@ namespace HotelBooking.UnitTests.BookingManagerTest;
 
 public class BookingManagerTestOccupiedDates
 {
-    /*private IBookingManager bookingManager;
-    Mock<IRepository<Booking>> mockBookingRepository;
-    
-
-    public BookingManagerTestOccupiedDates(){
-        mockBookingRepository = new Mock<IRepository<Booking>>();
-        var mockRoomRepository = new Mock<IRepository<Room>>();
-        bookingManager = new BookingManager(mockBookingRepository.Object,  mockRoomRepository.Object);
-    }*/
-
     
     private IBookingManager bookingManager;
-    IRepository<Booking> bookingRepository;
+    private Mock<IRepository<Booking>> bookingRepository;
 
     public BookingManagerTestOccupiedDates(){
-        DateTime start = DateTime.Today.AddDays(10);
-        DateTime end = DateTime.Today.AddDays(20);
-        bookingRepository = new FakeBookingRepository(start, end);
-        IRepository<Room> roomRepository = new FakeRoomRepository();
-        bookingManager = new BookingManager(bookingRepository, roomRepository);
+        // set up bookingRepository
+        DateTime fullyOccupiedStartDate = DateTime.Today.AddDays(10);
+        DateTime fullyOccupiedEndDate = DateTime.Today.AddDays(20);
+        bookingRepository = new Mock<IRepository<Booking>>();
+        var bookings = new[]
+        {
+            new Booking
+            {
+                Id = 1, StartDate = fullyOccupiedStartDate, EndDate = fullyOccupiedEndDate, IsActive = true,
+                CustomerId = 1, RoomId = 1
+            },
+            new Booking
+            {
+                Id = 2, StartDate = fullyOccupiedStartDate, EndDate = fullyOccupiedEndDate, IsActive = true,
+                CustomerId = 2, RoomId = 2
+            },
+        };
+        bookingRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(bookings);
+        
+        // set up roomRepository
+        Mock<IRepository<Room>> roomRepository = new Mock<IRepository<Room>>();
+        var rooms = new[]
+        {
+            new Room { Id = 1, Description = "A"},
+            new Room { Id = 2, Description = "B"}
+        };
+        roomRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(rooms);
+        
+        // create bookingManager
+        bookingManager = new BookingManager(bookingRepository.Object, roomRepository.Object);
     }
 
     [Fact]
