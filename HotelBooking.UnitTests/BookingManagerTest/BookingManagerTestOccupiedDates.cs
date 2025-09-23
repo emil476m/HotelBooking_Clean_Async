@@ -49,7 +49,7 @@ public class BookingManagerTestOccupiedDates
     }
 
     [Fact]
-    public async Task TestOccupiedDates_GetAllOccupiedDatesInGivenDateInterval_ExspectedResult()
+    public async Task TestOccupiedDates_GetAllOccupiedDatesInGivenDateInterval_ExpectedResult()
     {
         //Arrange
         
@@ -100,7 +100,7 @@ public class BookingManagerTestOccupiedDates
     }
     
     [Fact]
-    public async Task TestOccupiedDates_InsideAndOutsideOccupiedDateRanged_ExpectedOnlyTwoDaysReturned()
+    public async Task TestOccupiedDates_InsideAndOutsideOccupiedDateRange_ExpectedOnlyTwoDaysReturned()
     {
         //Arrange
 
