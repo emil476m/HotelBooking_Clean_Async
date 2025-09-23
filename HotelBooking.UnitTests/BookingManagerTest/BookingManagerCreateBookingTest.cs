@@ -47,9 +47,9 @@ public class BookingManagerCreateBookingTest
     }
 
     [Fact]
-    public async void Create_Booking_FullyOccupied()
+    public async Task Create_Booking_FullyOccupied()
     {
-        // act
+        // arrange
         var booking = new Booking()
         {
             StartDate = DateTime.Today.AddDays(10),
@@ -57,7 +57,7 @@ public class BookingManagerCreateBookingTest
         };
         var expectedResult = false;
         
-        // arrange
+        // act
         var result = await bookingManager.CreateBooking(booking);
         
         // assert
@@ -65,9 +65,9 @@ public class BookingManagerCreateBookingTest
     }
     
     [Fact]
-    public async void Create_Booking_NotFullyOccupied()
+    public async Task Create_Booking_NotFullyOccupied()
     {
-        // act
+        // arrange
         var booking = new Booking()
         {
             StartDate = DateTime.Today.AddDays(21),
@@ -75,7 +75,7 @@ public class BookingManagerCreateBookingTest
         };
         var expectedResult = true;
         
-        // arrange
+        // act
         var result = await bookingManager.CreateBooking(booking);
         
         // assert
@@ -83,16 +83,16 @@ public class BookingManagerCreateBookingTest
     }
     
     [Fact]
-    public async void Create_Booking_StartDate_After_EndDate()
+    public async Task Create_Booking_StartDate_After_EndDate()
     {
-        // act
+        // arrange
         var booking = new Booking()
         {
             StartDate = DateTime.Today.AddDays(30),
             EndDate = DateTime.Today.AddDays(20),
         };
         
-        // arrange
+        // act
         Task result() =>  bookingManager.CreateBooking(booking);
         
         // assert
@@ -100,16 +100,16 @@ public class BookingManagerCreateBookingTest
     }
     
     [Fact]
-    public async void Create_Booking_StartDate_In_ThePast()
+    public async Task Create_Booking_StartDate_In_ThePast()
     {
-        // act
+        // arrange
         var booking = new Booking()
         {
             StartDate = DateTime.Today.AddDays(-10),
             EndDate = DateTime.Today.AddDays(20),
         };
         
-        // arrange
+        // act
         Task result() =>  bookingManager.CreateBooking(booking);
         
         // assert

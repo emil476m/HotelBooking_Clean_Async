@@ -49,7 +49,7 @@ public class BookingManagerTestOccupiedDates
     }
 
     [Fact]
-    public async void TestOccupiedDates_GetAllOccupiedDatesInGivenDateInterval_ExspectedResult()
+    public async Task TestOccupiedDates_GetAllOccupiedDatesInGivenDateInterval_ExpectedResult()
     {
         //Arrange
         
@@ -66,7 +66,7 @@ public class BookingManagerTestOccupiedDates
     }
 
     [Fact]
-    public async void TestOccupiedDates_StartDateHigherThanEndDate_GetArgumentException()
+    public async Task TestOccupiedDates_StartDateHigherThanEndDate_GetArgumentException()
     {
         //Arrange
         DateTime start = DateTime.Today.AddDays(30);
@@ -80,7 +80,7 @@ public class BookingManagerTestOccupiedDates
     }
     
     [Fact]
-    public async void TestOccupiedDates_StartAndEndDateSame_OneDayReturned()
+    public async Task TestOccupiedDates_StartAndEndDateSame_OneDayReturned()
     {
         //Arrange
 
@@ -100,7 +100,7 @@ public class BookingManagerTestOccupiedDates
     }
     
     [Fact]
-    public async void TestOccupiedDates_InsideAndOutsideOccupiedDateRanged_ExpectedOnlyTwoDaysReturned()
+    public async Task TestOccupiedDates_InsideAndOutsideOccupiedDateRange_ExpectedOnlyTwoDaysReturned()
     {
         //Arrange
 
@@ -121,7 +121,7 @@ public class BookingManagerTestOccupiedDates
     }
     
     [Fact]
-    public async void TestOccupiedDates_NoOccupiedDates_EmptyList()
+    public async Task TestOccupiedDates_NoOccupiedDates_EmptyList()
     {
         //Arrange
 
