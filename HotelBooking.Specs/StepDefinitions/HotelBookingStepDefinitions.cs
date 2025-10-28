@@ -90,4 +90,22 @@ public class HotelBookingStepDefinitions
         Assert.True(methodResult.Result);
         bookingRepository.Verify(Mock => Mock.AddAsync(It.IsAny<Booking>()), Times.Once);
     }
+    
+    [When("the booking creation attemt is made")]
+    public void WhenTheBookingCreationAttemtIsMade()
+    {
+    }
+
+    Task method() => bookingManager.CreateBooking(new Booking()
+    {
+        StartDate = startDate,
+        EndDate = endDate,
+    });
+    
+    [Then("the booking should be created unsucessfully")]
+    public async Task ThenTheBookingShouldBeCreatedUnsucessfully()
+    {
+        await Assert.ThrowsAnyAsync<ArgumentException>(method);
+    }
+
 }

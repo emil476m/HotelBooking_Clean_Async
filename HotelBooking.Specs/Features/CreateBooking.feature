@@ -16,3 +16,17 @@ Scenario: Create a booking sucessfully
 	| 5    		| 7       |
 	| 2    		| 3       |
 	| 21    	| 25      |
+ 
+Scenario: Create a booking unsuccesfully
+	Given a booking starting on <StartDate>
+	And ending on <EndDate>
+	When the booking creation attemt is made
+	Then the booking should be created unsucessfully
+	
+	Examples: 
+	  | StartDate | EndDate |
+	  | 7         | 5       |
+	  | 3         | 2       |
+	  | 25        | 21      |
+	  | 0         | 2       |
+	  | -1        | 5       |
