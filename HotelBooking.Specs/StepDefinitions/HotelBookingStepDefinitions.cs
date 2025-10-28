@@ -95,7 +95,7 @@ public class HotelBookingStepDefinitions
     {
     }
 
-    Task method() => bookingManager.CreateBooking(new Booking()
+    Task createBookingTask() => bookingManager.CreateBooking(new Booking()
     {
         StartDate = startDate,
         EndDate = endDate,
@@ -104,7 +104,7 @@ public class HotelBookingStepDefinitions
     [Then("the booking should be created unsucessfully")]
     public async Task ThenTheBookingShouldBeCreatedUnsucessfully()
     {
-        await Assert.ThrowsAnyAsync<ArgumentException>(method);
+        await Assert.ThrowsAnyAsync<ArgumentException>(createBookingTask);
     }
     
     [Then("the booking should not be created sucessfully")]
