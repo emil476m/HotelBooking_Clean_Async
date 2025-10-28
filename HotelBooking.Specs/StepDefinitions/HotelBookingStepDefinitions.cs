@@ -86,7 +86,6 @@ public class HotelBookingStepDefinitions
     [Then("the booking should be created sucessfully")]
     public async Task ThenTheBookingShouldBeCreatedSucessfully()
     {
-        
         Assert.True(methodResult.Result);
         bookingRepository.Verify(Mock => Mock.AddAsync(It.IsAny<Booking>()), Times.Once);
     }
@@ -106,6 +105,14 @@ public class HotelBookingStepDefinitions
     public async Task ThenTheBookingShouldBeCreatedUnsucessfully()
     {
         await Assert.ThrowsAnyAsync<ArgumentException>(method);
+    }
+    
+    [Then("the booking should not be created sucessfully")]
+    public void ThenTheBookingShouldNotBeCreatedSucessfully()
+    {
+        Assert.False(methodResult.Result);
+        bookingRepository.Verify(Mock => Mock.AddAsync(It.IsAny<Booking>()), Times.Never);
+        
     }
 
 }

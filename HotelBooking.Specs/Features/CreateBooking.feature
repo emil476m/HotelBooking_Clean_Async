@@ -30,3 +30,15 @@ Scenario: Create a booking unsuccesfully
 	  | 25        | 21      |
 	  | 0         | 2       |
 	  | -1        | 5       |
+
+Scenario: Create booking fully occupied
+	Given a booking starting on <StartDate>
+	And ending on <EndDate>
+	When the booking is created
+	Then the booking should not be created sucessfully
+	
+	Examples: 
+	  | StartDate | EndDate |
+	  | 10        | 12      |
+	  | 12        | 15      |
+	  | 20        | 25      |
